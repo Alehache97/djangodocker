@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  app:
+    container_name: django-app
+    image: alehache/django_publicaciones:${VERSION}
+    restart: always
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DJANGO_USER: ${DJANGO_USER}
+      DJANGO_PASSWORD: ${DJANGO_PASSWORD}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      DJANGO_EMAIL: ${DJANGO_EMAIL}
+    ports:
+      - ${PORT}:8084
+    depends_on:
+      - db
+  db:
+    container_name: servidor_mysqldjango
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mariadb_dj_data:/var/lib/mysql
+volumes:
+    mariadb_dj_data:
